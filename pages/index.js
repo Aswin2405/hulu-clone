@@ -1,65 +1,32 @@
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import Header from '../components/Header'
+import Nav from '../components/Nav'
+import Results from '../components/Results'
+import Requests from '../utils/Requests'
 
-export default function Home() {
+
+export default function Home({results}) {
+ 
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>Hulu 2.0</title>
+        <link rel="icon" href="data:image/jpeg;base64,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" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
+     <Header/>
+     <Nav/>
+     <Results results={results}/>
     </div>
   )
+}
+export async function getServerSideProps(context){
+  const genre=context.query.genre
+  const request = await fetch(`https://api.themoviedb.org/3${Requests[genre]?.url||Requests.fetchTrending.url}`)
+  .then(res=>res.json())
+  return{
+    props:{
+      results:request.results
+    }
+  }
 }
